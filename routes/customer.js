@@ -11,15 +11,15 @@ router.get('/', async function(req, res, next)
 /* adds a new customer to the list */
 router.post('/', async (req, res, next) =>
 {
-	const data = req.body;
+	const body = req.body;
 
 	try
 	{
-		const customer = await CustomerService.create(data);
+		const customer = await CustomerService.create(body);
 
-		if(data.guid != null)
+		if(body.guid != null)
 		{
-			customer.guid = data.guid;
+			customer.guid = body.guid;
 		}
 
 		res.cookie('guid', customer.guid, { maxAge: 900000, httpOnly: true });
@@ -29,8 +29,8 @@ router.post('/', async (req, res, next) =>
 	}
 	catch(err)
 	{
-		/* TODO implement validation error */
-		if (err.name === 'ValidationError') {
+		if (err.name === 'ValidationError')
+		{
         	return res.status(400).json({ error: err.message });
 		}
 
